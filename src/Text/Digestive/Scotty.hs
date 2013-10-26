@@ -18,7 +18,7 @@ import Text.Digestive.View
 
 scottyEnv :: Monad m => Env (Scotty.ActionT m)
 scottyEnv path = do
-    inputs <- liftM (map $ TextInput . TL.toStrict) $ Scotty.param name
+    inputs <- liftM (map $ TextInput . TL.toStrict) $ Scotty.param name `Scotty.rescue` \_ -> return []
     files  <- liftM (map (FileInput . B.unpack . fileName . snd) . filter ((== name) . fst)) Scotty.files
     return $ inputs ++ files
   where name = TL.fromStrict . fromPath $ path
