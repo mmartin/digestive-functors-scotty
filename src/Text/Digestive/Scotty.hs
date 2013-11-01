@@ -18,10 +18,11 @@ import Text.Digestive.View
 
 scottyEnv :: Monad m => Env (Scotty.ActionT m)
 scottyEnv path = do
-    inputs <- liftM (map $ TextInput . TL.toStrict) $ Scotty.param name `Scotty.rescue` \_ -> return []
-    files  <- liftM (map (FileInput . B.unpack . fileName . snd) . filter ((== name) . fst)) Scotty.files
+    inputs <- parse (TextInput . TL.toStrict) Scotty.params
+    files  <- parse (FileInput . B.unpack . fileName) Scotty.files
     return $ inputs ++ files
-  where name = TL.fromStrict . fromPath $ path
+  where parse f = liftM $ map (f . snd) . filter ((== name) . fst)
+        name    = TL.fromStrict . fromPath $ path
 
 -- | Runs a form with the HTTP input provided by Scotty.
 runForm :: Monad m
