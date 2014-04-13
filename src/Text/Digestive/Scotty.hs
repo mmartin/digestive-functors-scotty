@@ -16,7 +16,7 @@ import Text.Digestive.Form
 import Text.Digestive.Types
 import Text.Digestive.View
 
-scottyEnv :: Monad m => Env (Scotty.ActionT m)
+scottyEnv :: (Monad m, Scotty.ScottyError e) => Env (Scotty.ActionT e m)
 scottyEnv path = do
     inputs <- parse (TextInput . TL.toStrict) Scotty.params
     files  <- parse (FileInput . B.unpack . fileName) Scotty.files
@@ -25,12 +25,12 @@ scottyEnv path = do
         name    = TL.fromStrict . fromPath $ path
 
 -- | Runs a form with the HTTP input provided by Scotty.
-runForm :: Monad m
+runForm :: (Monad m, Scotty.ScottyError e)
         => T.Text                               -- ^ Name of the form
-        -> Form v (Scotty.ActionT m) a          -- ^ Form to run
-        -> (Scotty.ActionT m) (View v, Maybe a) -- ^ Result
+        -> Form v (Scotty.ActionT e m) a          -- ^ Form to run
+        -> (Scotty.ActionT e m) (View v, Maybe a) -- ^ Result
 runForm name form = Scotty.request >>= \rq ->
     if requestMethod rq == methodGet
         then getForm name form >>= \v -> return (v, Nothing)
-        else postForm name form scottyEnv
+        else postForm name form (\ _ -> return scottyEnv)
 
