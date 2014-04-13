@@ -26,11 +26,11 @@ scottyEnv path = do
 
 -- | Runs a form with the HTTP input provided by Scotty.
 runForm :: (Monad m, Scotty.ScottyError e)
-        => T.Text                               -- ^ Name of the form
+        => T.Text                                 -- ^ Name of the form
         -> Form v (Scotty.ActionT e m) a          -- ^ Form to run
         -> (Scotty.ActionT e m) (View v, Maybe a) -- ^ Result
 runForm name form = Scotty.request >>= \rq ->
     if requestMethod rq == methodGet
         then getForm name form >>= \v -> return (v, Nothing)
-        else postForm name form (\ _ -> return scottyEnv)
+        else postForm name form $ const (return scottyEnv)
 
