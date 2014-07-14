@@ -18,13 +18,13 @@ library
   exposed-modules:     Text.Digestive.Scotty
 
   build-depends:       base               ==4.*
-                     , digestive-functors ==0.7.*
-                     , scotty             ==0.7.*
-                     , bytestring         >=0.9   && <0.11
-                     , http-types         ==0.8.*
-                     , text               >=0.11  && <1.2
-                     , wai                >=2.0.0 && <2.2
-                     , wai-extra          >=2.0.1 && <2.2
+                     , digestive-functors >=0.7
+                     , scotty             >=0.7
+                     , bytestring         >=0.9
+                     , http-types         >=0.8
+                     , text               >=0.11
+                     , wai                >=2.0.0
+                     , wai-extra          >=2.0.1
 
 source-repository head
   Type: git
