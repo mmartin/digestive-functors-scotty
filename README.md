@@ -24,10 +24,10 @@ main = scotty 3000 $ do
     get "/" $ do
         setHeader "Content-Type" "text/html"
         raw " <html><body><form enctype='multipart/form-data' method='post'> \
-              \ <input type='text' name='test-form.field1'/> \
-              \ <input type='text' name='test-form.field2'/> \
-              \ <input type='submit'/> \
-              \ </form></body></html>"
+            \ <input type='text' name='test-form.field1'/> \
+            \ <input type='text' name='test-form.field2'/> \
+            \ <input type='submit'/> \
+            \ </form></body></html>"
 
     post "/" $ do
         (view, result) <- runForm "test-form" testForm
