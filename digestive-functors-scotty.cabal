@@ -1,5 +1,5 @@
 name:                digestive-functors-scotty
-version:             0.2.0.1
+version:             0.2.0.2
 synopsis:            Scotty backend for the digestive-functors library
 description:         Scotty backend for the digestive-functors library
 homepage:            https://bitbucket.org/wniare/digestive-functors-scotty
