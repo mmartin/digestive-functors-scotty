@@ -1,5 +1,3 @@
-# Scotty backend for the digestive-functors library
-
 ```haskell
 {-# LANGUAGE OverloadedStrings #-}
 
